@@ -24,7 +24,7 @@ Every notebook in this repo runs an offline comparison: a fixed dataset, no live
 |---|----------|---------------|---------------|
 | 01 | [Power analysis for LLM evals](notebooks/01-power-analysis-llm-evals.ipynb) | Why 50 examples cannot see a 5-point gain. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm, not 50. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/01-power-analysis-llm-evals.ipynb) |
 | 02 | [Hypothesis testing for LLM metrics](notebooks/02-hypothesis-testing-llm-metrics.ipynb) | The same 200 paired test cases where a paired t-test says "no difference" (p=0.10) and a Wilcoxon signed-rank test finds the improvement (p=0.0078), and why. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/02-hypothesis-testing-llm-metrics.ipynb) |
-| 03 | [RAG evaluation case study](notebooks/03-rag-evaluation-case-study.ipynb) | A 14-point retrieval-recall drop (0.82 to 0.68) behind a 6-point end-to-end drop (0.80 to 0.74), and the component table that shows where it came from. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/03-rag-evaluation-case-study.ipynb) |
+| 03 | [RAG evaluation case study](notebooks/03-rag-evaluation-case-study.ipynb) | In a simulation, a 14-point retrieval-recall drop (0.82 to 0.68) behind a 6-point end-to-end drop (0.80 to 0.74), and the component table that shows where it came from. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/03-rag-evaluation-case-study.ipynb) |
 | 04 | [Agent evaluation mini-case](notebooks/04-agent-evaluation-mini-case.ipynb) *(bonus)* | Bonus. In a simulation, the agent that leads on final-answer quality falls behind under production constraints (84.5% to 70.5% task success) while the agent with better process metrics holds up (81.5% to 79.5%). | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/04-agent-evaluation-mini-case.ipynb) |
 
 > **Notebook 04 is a bonus.** The live course covers power analysis, hypothesis testing, and the RAG case in 60 minutes. The agent notebook is an optional extra to explore on your own.
@@ -61,6 +61,16 @@ Before you act on any eval result, run it through five questions. The one-page v
 4. Is the LLM-as-judge unbiased?
 5. Will the offline result hold once it meets live users?
 
+If all five pass, ship. If any fail, hold, gather more evidence, or run a causal check.
+
+---
+
+## Shipping decision framework
+
+The diagnostic leads to one of four outcomes. A causal check means a randomized online test, or a staged rollout with a control group. Run one when a wrong call is costly, customer-facing, or hard to undo.
+
+![Shipping decision framework: ship, hold, gather more data, validate with an experiment](assets/shipping-decision-framework-diagram.png)
+
 ---
 
 ## FAQ
@@ -72,7 +82,7 @@ It depends on the effect size and the metric's noise. Detecting a 5-point faithf
 On paired eval data, a Wilcoxon signed-rank test can catch an improvement a t-test reports as no difference (p=0.10 for the t-test vs. p=0.0078 for Wilcoxon in notebook 02).
 
 **Can a small end-to-end RAG dip hide a retrieval regression?**
-Yes. Notebook 03 works through a 14-point retrieval-recall collapse (0.82 to 0.68) hidden behind a 6-point end-to-end dip (0.80 to 0.74), and the component-level evaluation design that surfaces it.
+Yes. Notebook 03 simulates a 14-point retrieval-recall collapse (0.82 to 0.68) hidden behind a 6-point end-to-end dip (0.80 to 0.74), and the component-level evaluation design that surfaces it.
 
 **Does an agent that leads a benchmark hold up in production?**
 Not always. In the simulated bonus notebook 04, Agent A leads the benchmark (0.845 task success) then drops under production constraints (0.705), while Agent B holds (0.795) and ends ahead.
