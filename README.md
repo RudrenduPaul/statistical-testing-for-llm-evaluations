@@ -22,7 +22,7 @@ Every notebook in this repo runs an offline comparison: a fixed dataset, no live
 
 | # | Notebook | What it shows | Open in Colab |
 |---|----------|---------------|---------------|
-| 01 | [Power analysis for LLM evals](notebooks/01-power-analysis-llm-evals.ipynb) | Why 50 examples is statistical vapor. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm, not 50. Sizing for binary, ordinal, and judge-based metrics. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/01-power-analysis-llm-evals.ipynb) |
+| 01 | [Power analysis for LLM evals](notebooks/01-power-analysis-llm-evals.ipynb) | Why 50 examples cannot see a 5-point gain. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm, not 50. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/01-power-analysis-llm-evals.ipynb) |
 | 02 | [Hypothesis testing for LLM metrics](notebooks/02-hypothesis-testing-llm-metrics.ipynb) | The same 200 paired test cases where a paired t-test says "no difference" (p=0.10) and a Wilcoxon signed-rank test finds the improvement (p=0.0078), and why. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/02-hypothesis-testing-llm-metrics.ipynb) |
 | 03 | [RAG evaluation case study](notebooks/03-rag-evaluation-case-study.ipynb) | A 14-point retrieval-recall drop (0.82 to 0.68) behind a 6-point end-to-end drop (0.80 to 0.74), and the component table that shows where it came from. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/03-rag-evaluation-case-study.ipynb) |
 | 04 | [Agent evaluation mini-case](notebooks/04-agent-evaluation-mini-case.ipynb) *(bonus)* | Bonus. In a simulation, the agent that leads on final-answer quality falls behind under production constraints (84.5% to 70.5% task success) while the agent with better process metrics holds up (81.5% to 79.5%). | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/04-agent-evaluation-mini-case.ipynb) |
@@ -66,7 +66,7 @@ Before you act on any eval result, run it through five questions. The one-page v
 ## FAQ
 
 **How many examples do you need to detect a change in an LLM eval?**
-It depends on the effect size and the metric's noise. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm in the notebook's simulation (score SD about 37), not the 50 most teams run. Notebook 01 covers power analysis for binary, ordinal, and judge-based metrics.
+It depends on the effect size and the metric's noise. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm in the notebook's simulation (score SD about 37), not the 50 most teams run.
 
 **Which statistical test catches an LLM improvement a t-test misses?**
 On paired eval data, a Wilcoxon signed-rank test can catch an improvement a t-test reports as no difference (p=0.10 for the t-test vs. p=0.0078 for Wilcoxon in notebook 02).
