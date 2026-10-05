@@ -4,7 +4,7 @@
 
 **Before you ship, ask these five questions.**
 
-Use this checklist before promoting any LLM change to production. Each question targets a specific failure mode that offline evals routinely miss. If any red flag fires, stop and fix the underlying problem before shipping.
+Use this checklist before promoting any LLM change to production. Each question targets a specific problem that offline evals routinely miss. If any red flag fires, stop and fix the underlying problem before shipping.
 
 ---
 
@@ -38,7 +38,7 @@ Use this checklist before promoting any LLM change to production. Each question 
 
 **What to check:**
 - How many test cases were used? Fewer than 200 is almost always insufficient for detecting meaningful improvements.
-- What effect size can this sample detect at 80% statistical power? A sample of 50 examples yields roughly 10.4% power for small effects. You need 200+ for moderate effects and 847 to reliably detect small improvements.
+- What effect size can this sample detect at 80% statistical power? In notebook 01's simulation (score SD about 37), 50 examples yield 10.4% power for a 5-point gain and 847 per arm reach 80%. Your number depends on your smallest worthwhile effect and your metric's noise, so compute it before collecting data.
 - Did someone run a power calculation, or was the sample size chosen arbitrarily?
 
 **Red flag:** The eval ran on fewer than 100 examples and the reported improvement is smaller than 5 percentage points. At that scale, the result is consistent with noise.
@@ -79,7 +79,7 @@ Use this checklist before promoting any LLM change to production. Each question 
 |---|---|---|
 | Metric measures what matters? | Proxy optimization with no user benefit | Validated against human judgment |
 | Proper randomization? | Selection bias inflates results | Random sample from prod logs or documented distribution |
-| Sample large enough? | Noise mistaken for signal | 200+ examples; 847 for small effects |
+| Sample large enough? | Noise mistaken for signal | Size it from your smallest worthwhile effect and metric noise (847 per arm in notebook 01) |
 | Judge is unbiased? | Systematic preference for length or model family | Position swap + cross-family judge |
 | Offline result survives production? | Eval gaming; distribution shift | Shadow deployment or staged rollout |
 

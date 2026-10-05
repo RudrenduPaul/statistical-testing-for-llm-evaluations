@@ -22,10 +22,10 @@ Every notebook in this repo runs an offline comparison: a fixed dataset, no live
 
 | # | Notebook | What it shows | Open in Colab |
 |---|----------|---------------|---------------|
-| 01 | [Power analysis for LLM evals](notebooks/01-power-analysis-llm-evals.ipynb) | Why 50 examples is statistical vapor. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm, not 50. Sizing for binary, ordinal, and judge-based metrics. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/llm-evals-course/blob/main/notebooks/01-power-analysis-llm-evals.ipynb) |
-| 02 | [Hypothesis testing for LLM metrics](notebooks/02-hypothesis-testing-llm-metrics.ipynb) | The same paired data where a t-test says "no difference" (p=0.10) but Wilcoxon catches the improvement the t-test misses (p=0.0078). Mann-Whitney, bootstrap CIs, and the multiple-comparisons trap. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/llm-evals-course/blob/main/notebooks/02-hypothesis-testing-llm-metrics.ipynb) |
-| 03 | [RAG evaluation case study](notebooks/03-rag-evaluation-case-study.ipynb) | A 14-point retrieval-recall collapse (0.82 to 0.68) hiding behind a steady end-to-end score, and the component-level design that surfaces it. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/llm-evals-course/blob/main/notebooks/03-rag-evaluation-case-study.ipynb) |
-| 04 | [Agent evaluation mini-case](notebooks/04-agent-evaluation-mini-case.ipynb) *(bonus)* | Agent A wins the benchmark (0.845) but collapses under production constraints (0.705) while Agent B holds steady (0.795) and overtakes it. Multi-level and production-constraint evaluation. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/llm-evals-course/blob/main/notebooks/04-agent-evaluation-mini-case.ipynb) |
+| 01 | [Power analysis for LLM evals](notebooks/01-power-analysis-llm-evals.ipynb) | Why 50 examples is statistical vapor. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm, not 50. Sizing for binary, ordinal, and judge-based metrics. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/01-power-analysis-llm-evals.ipynb) |
+| 02 | [Hypothesis testing for LLM metrics](notebooks/02-hypothesis-testing-llm-metrics.ipynb) | The same paired data where a t-test says "no difference" (p=0.10) but Wilcoxon catches the improvement the t-test misses (p=0.0078). Mann-Whitney, bootstrap CIs, and the multiple-comparisons trap. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/02-hypothesis-testing-llm-metrics.ipynb) |
+| 03 | [RAG evaluation case study](notebooks/03-rag-evaluation-case-study.ipynb) | A 14-point retrieval-recall collapse (0.82 to 0.68) hidden behind a small end-to-end dip, and the component-level design that surfaces it. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/03-rag-evaluation-case-study.ipynb) |
+| 04 | [Agent evaluation mini-case](notebooks/04-agent-evaluation-mini-case.ipynb) *(bonus)* | In a simulation, Agent A wins the benchmark (0.845) but drops under production constraints (0.705) while Agent B holds steady (0.795) and overtakes it. Multi-level and production-constraint evaluation. | [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/RudrenduPaul/statistical-testing-for-llm-evaluations/blob/main/notebooks/04-agent-evaluation-mini-case.ipynb) |
 
 > **Notebook 04 is a bonus.** The live course covers power analysis, hypothesis testing, and the RAG case in 60 minutes. The agent mini-case is an optional deep-dive to explore on your own.
 
@@ -38,8 +38,8 @@ All notebooks ship with their outputs saved, so you can read the charts and tabl
 ## Run locally
 
 ```bash
-git clone https://github.com/RudrenduPaul/llm-evals-course.git
-cd llm-evals-course
+git clone https://github.com/RudrenduPaul/statistical-testing-for-llm-evaluations.git
+cd statistical-testing-for-llm-evaluations
 python -m venv .venv && source .venv/bin/activate   # optional
 pip install -r requirements.txt
 jupyter lab
@@ -66,13 +66,13 @@ Before you act on any eval result, run it through five questions. The one-page v
 ## FAQ
 
 **How many examples do you need to detect a change in an LLM eval?**
-It depends on the effect size and the metric's noise. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm, not the 50 most teams run. Notebook 01 covers power analysis for binary, ordinal, and judge-based metrics.
+It depends on the effect size and the metric's noise. Detecting a 5-point faithfulness gain on a noisy 0-100 judge score needs 847 examples per arm in the notebook's simulation (score SD about 37), not the 50 most teams run. Notebook 01 covers power analysis for binary, ordinal, and judge-based metrics.
 
 **Which statistical test catches an LLM improvement a t-test misses?**
 On paired eval data, a Wilcoxon signed-rank test can catch an improvement a t-test reports as no difference (p=0.10 for the t-test vs. p=0.0078 for Wilcoxon in notebook 02). Notebook 02 also covers Mann-Whitney, bootstrap confidence intervals, and the multiple-comparisons trap.
 
-**Can a steady end-to-end RAG score hide a retrieval regression?**
-Yes. Notebook 03 works through a 14-point retrieval-recall collapse (0.82 to 0.68) hidden behind a stable end-to-end score, and the component-level evaluation design that surfaces it.
+**Can a small end-to-end RAG dip hide a retrieval regression?**
+Yes. Notebook 03 works through a 14-point retrieval-recall collapse (0.82 to 0.68) hidden behind a 6-point end-to-end dip (0.80 to 0.74), and the component-level evaluation design that surfaces it.
 
 **Does an agent that wins a benchmark hold up in production?**
 Not always. Notebook 04's mini-case shows Agent A win the benchmark (0.845) then drop under production constraints (0.705), while Agent B holds steady (0.795) and overtakes it.
