@@ -39,7 +39,7 @@ Each notebook opens with a one-picture workflow, so you can follow the steps and
 
 | Notebook | Test or measure | Why |
 |---|---|---|
-| 01 | Two-sample t-test, Cohen's d, power analysis () | Two independent prompt groups; size the eval before collecting data |
+| 01 | Two-sample t-test, Cohen's d, power analysis (TTestIndPower) | Two independent prompt groups; size the eval before collecting data |
 | 02 | Paired t-test, Wilcoxon signed-rank | The same 200 cases scored twice; compare "did the average move" with "does B tend to win" |
 | 03 | Mann-Whitney U | Two independent periods of queries with bounded, skewed scores |
 | 04 | McNemar (paired pass or fail) | The same tasks run on the benchmark and again under production limits |
