@@ -33,6 +33,17 @@ Every notebook in this repo runs an offline comparison: a fixed dataset, no live
 
 All notebooks ship with their outputs saved, so you can read the charts and tables without running a single cell.
 
+Each notebook opens with a one-picture workflow, so you can follow the steps and decisions without reading the code.
+
+**Statistical tests used**
+
+| Notebook | Test or measure | Why |
+|---|---|---|
+| 01 | Two-sample t-test, Cohen's d, power analysis () | Two independent prompt groups; size the eval before collecting data |
+| 02 | Paired t-test, Wilcoxon signed-rank | The same 200 cases scored twice; compare "did the average move" with "does B tend to win" |
+| 03 | Mann-Whitney U | Two independent periods of queries with bounded, skewed scores |
+| 04 | McNemar (paired pass or fail) | The same tasks run on the benchmark and again under production limits |
+
 ---
 
 ## Run locally
