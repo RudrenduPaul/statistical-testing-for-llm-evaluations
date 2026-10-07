@@ -46,6 +46,54 @@ Each notebook opens with a one-picture workflow, so you can follow the steps and
 
 ---
 
+## What each notebook shows
+
+### Notebook 01: Power analysis for LLM evals
+
+**Question:** Can 50 examples see a 5-point gain?
+
+<img src="https://raw.githubusercontent.com/RudrenduPaul/statistical-testing-for-llm-evaluations/main/assets/notebook-01-workflow.png" alt="Notebook 01 workflow" width="760">
+
+- **What it does:** Sets the truth (Prompt A averages 72, Prompt B averages 77, score SD 36.7), simulates noisy scores, and compares the prompts with 50 examples each and then with 847 each.
+- **Key results:** At 50 per prompt the measured gap is 5.36 points and p = 0.485 (not significant). At 847 per prompt the gap is 4.94 and p = 0.0054. Power at n = 50 is 10.4%. Reaching 80% power takes 847 per prompt, about 17 times more.
+- **Tests and measures:** Two-sample t-test, Cohen's d (0.136), power analysis (`TTestIndPower`), power curves, and a sample-size table (3 points: 2,351, 5 points: 847, 10 points: 213 per prompt).
+- **Takeaway:** Size the eval before you collect the data. Missing a gain at small n is a weak test, not proof the prompt failed.
+
+### Notebook 02: Hypothesis testing for LLM metrics
+
+**Question:** Why do the t-test and Wilcoxon disagree on the same scores?
+
+<img src="https://raw.githubusercontent.com/RudrenduPaul/statistical-testing-for-llm-evaluations/main/assets/notebook-02-workflow.png" alt="Notebook 02 workflow" width="760">
+
+- **What it does:** Scores 200 paired test cases (1 to 5 rubric) under two prompts, counts the per-case changes, and runs both tests.
+- **Key results:** B wins 105 cases by one point, ties 65, and loses 30 (27 of them by 2 to 4 points). The paired t-test gives t = -1.64, p = 0.1024 (not significant). The Wilcoxon signed-rank test gives W = 3458, p = 0.0078 (significant). The 65 ties are set aside, so 135 cases decide the result.
+- **Tests and measures:** Paired t-test (did the average move?) and Wilcoxon signed-rank (does B tend to win case by case?).
+- **Takeaway:** The tests ask different questions. Pick the test from the design before you look at p-values, then decide on what the 30 losses cost, not on one p-value.
+
+### Notebook 03: RAG evaluation case study
+
+**Question:** How does a 14-point retrieval failure reach the dashboard as a 6-point alert?
+
+<img src="https://raw.githubusercontent.com/RudrenduPaul/statistical-testing-for-llm-evaluations/main/assets/notebook-03-workflow.png" alt="Notebook 03 workflow" width="760">
+
+- **What it does:** Simulates a RAG system with 500 queries before and 500 after a drift, scores four components, and combines them into one end-to-end score (weights 0.2, 0.2, 0.3, 0.3). It then tests the end-to-end score and each component.
+- **Key results:** The end-to-end score falls from 0.803 to 0.741 (6.25 points, p < 0.0001), so the alert fires. By component: retrieval recall 0.819 to 0.679 (14.0 points), context relevance -7.1, faithfulness -6.3, answer relevance 0.812 to 0.808 (-0.5, p = 0.1912, not significant).
+- **Tests and measures:** Mann-Whitney U (independent periods, bounded and skewed scores, one-sided "did it decline?"), run on the end-to-end score and on each component.
+- **Takeaway:** The end-to-end score is a weighted average. Drops of 14, 7, 6 and 0 average to about 6, so test the components separately to find the failure. The drift is simulated, so the numbers show the mechanism, not field data.
+
+### Notebook 04 (bonus): Agent evaluation mini-case
+
+**Question:** Why is the final answer not enough for agents?
+
+<img src="https://raw.githubusercontent.com/RudrenduPaul/statistical-testing-for-llm-evaluations/main/assets/notebook-04-workflow.png" alt="Notebook 04 workflow" width="760">
+
+- **What it does:** Simulates two agents (Agent A brute-forces answers, Agent B plans first), scores four levels, then adds production limits: latency, timeouts and context overflow.
+- **Key results:** On the benchmark, Agent A leads on final answer quality and task success (0.845 vs. 0.815). Agent B leads on tool selection (0.845 vs. 0.633) and trajectory efficiency (0.800 vs. 0.515). Under production limits Agent A falls from 0.845 to 0.705 and Agent B from 0.815 to 0.795.
+- **Tests and measures:** McNemar test on the paired benchmark and production outcomes of the same 200 tasks. Agent A: 28 tasks flipped to failure, none the other way, p = 7.451e-09. Agent B: 4 flipped, none the other way, p = 0.125.
+- **Takeaway:** Score the process, then stress it, before trusting the final answer. The penalties are coded into the simulation, so it illustrates the mechanism, not field data.
+
+---
+
 ## Run locally
 
 ```bash
