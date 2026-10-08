@@ -4,21 +4,43 @@
 
 Companion notebooks for the O'Reilly live course **Statistical Testing for LLM Evaluations**, taught by **Rudrendu Paul**.
 
-Your LLM eval says the new version is better. Should you trust it? Most LLM evaluations are underpowered, run the wrong statistical test, or measure a metric that does not survive production. These four notebooks give you the statistical toolkit to catch those failures before you ship. Every notebook runs on synthetic data, so `pip install` is the only setup required.
+**Your LLM eval says the new version is better. Should you trust it? Often not.** Most LLM evals are underpowered, use the wrong statistical test, or hide a failure behind one average score. This repo gives you a five-question check, a ship-or-hold decision framework, and four notebooks that prove each point. Every notebook runs on synthetic data, so `pip install` is the only setup required.
 
 ---
 
-## Online vs. offline evaluation
+## Before you ship, ask five questions
 
-Online evaluation, A/B testing on live traffic, carries a statistical playbook: sequential testing, online controlled experiments, established practice. Offline evaluation, the fixed-dataset comparison you run before anything ships, usually does not. This course closes that gap.
+Before you act on any eval result, run it through five questions. The one-page version is in [`5-question-diagnostic-framework.md`](5-question-diagnostic-framework.md).
 
-![Online vs. offline LLM evaluation](assets/online-vs-offline-evaluation-diagram.png)
+![The 5-Question Diagnostic Framework](assets/five-question-diagnostic-diagram.png)
 
-Every notebook in this repo runs an offline comparison: a fixed dataset, no live users, old vs. new prompt or model compared side by side. The statistical toolkit here (power analysis, hypothesis testing) is what online experimentation carries and offline evals typically skip.
+1. Does the metric measure what matters?
+2. Was the experiment randomized?
+3. Was the sample large enough?
+4. Is the LLM-as-judge unbiased?
+5. Will the offline result hold once it meets live users?
+
+If all five pass, ship. If any fail, hold, gather more evidence, or run a causal check.
 
 ---
 
-## Notebooks
+## Three ways an eval misleads you
+
+1. **Too little data.** With 50 examples per prompt, a 5-point gain has only 10.4% power, so you miss it about nine times out of ten. It takes 847 per prompt. (Notebook 01, question 3)
+2. **The wrong test.** On the same 200 paired cases, a paired t-test says no difference (p = 0.1024) and a Wilcoxon signed-rank test finds the improvement (p = 0.0078). The two ask different questions. (Notebook 02)
+3. **A number you cannot trust.** One end-to-end score can hide a 14-point retrieval failure behind a 6-point dip, and an LLM judge can favor whichever answer comes first. (Notebook 03, questions 1 and 4)
+
+---
+
+## Then decide: ship, hold, gather more data, or run an experiment
+
+The diagnostic leads to one of four outcomes. A causal check means a randomized online test, or a staged rollout with a control group. Run one when a wrong call is costly, customer-facing, or hard to undo.
+
+![Shipping decision framework: ship, hold, gather more data, validate with an experiment](assets/shipping-decision-framework-diagram.png)
+
+---
+
+## The proof: four notebooks you can run
 
 | # | Notebook | What it shows | Open in Colab |
 |---|----------|---------------|---------------|
@@ -43,6 +65,16 @@ Each notebook opens with a one-picture workflow, so you can follow the steps and
 | 02 | Paired t-test, Wilcoxon signed-rank | The same 200 cases scored twice; compare "did the average move" with "does B tend to win" |
 | 03 | Mann-Whitney U | Two independent periods of queries with bounded, skewed scores |
 | 04 | McNemar (paired pass or fail) | The same tasks run on the benchmark and again under production limits |
+
+---
+
+## Why offline evals need the rigor of online tests
+
+Online evaluation, A/B testing on live traffic, carries a statistical playbook: sequential testing, online controlled experiments, established practice. Offline evaluation, the fixed-dataset comparison you run before anything ships, usually does not. This course closes that gap.
+
+![Online vs. offline LLM evaluation](assets/online-vs-offline-evaluation-diagram.png)
+
+Every notebook in this repo runs an offline comparison: a fixed dataset, no live users, old vs. new prompt or model compared side by side. The statistical toolkit here (power analysis, hypothesis testing) is what online experimentation carries and offline evals typically skip.
 
 ---
 
@@ -108,30 +140,6 @@ Python 3.10+ is recommended. No API keys are required. All data is synthetic and
 
 ---
 
-## 5-Question Diagnostic Framework
-
-Before you act on any eval result, run it through five questions. The one-page version is in [`5-question-diagnostic-framework.md`](5-question-diagnostic-framework.md).
-
-![The 5-Question Diagnostic Framework](assets/five-question-diagnostic-diagram.png)
-
-1. Does the metric measure what matters?
-2. Was the experiment randomized?
-3. Was the sample large enough?
-4. Is the LLM-as-judge unbiased?
-5. Will the offline result hold once it meets live users?
-
-If all five pass, ship. If any fail, hold, gather more evidence, or run a causal check.
-
----
-
-## Shipping decision framework
-
-The diagnostic leads to one of four outcomes. A causal check means a randomized online test, or a staged rollout with a control group. Run one when a wrong call is costly, customer-facing, or hard to undo.
-
-![Shipping decision framework: ship, hold, gather more data, validate with an experiment](assets/shipping-decision-framework-diagram.png)
-
----
-
 ## FAQ
 
 **How many examples do you need to detect a change in an LLM eval?**
@@ -164,4 +172,3 @@ Not always. In the simulated bonus notebook 04, Agent A leads the benchmark (0.8
 - Medium: [medium.com/@rudrendupaul](https://medium.com/@rudrendupaul)
 
 Licensed under the MIT License. See [LICENSE](LICENSE).
-
