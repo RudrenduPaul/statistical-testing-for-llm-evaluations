@@ -1,8 +1,10 @@
 # Statistical Testing for LLM Evaluations
 
+**[Join the O'Reilly live course: Statistical Testing for LLM Evaluations](https://www.oreilly.com/live-events/statistical-testing-for-llm-evaluations/0642572400019/)**
+
 *Design experiments that catch the improvements worth shipping*
 
-Companion notebooks for the O'Reilly live course [**Statistical Testing for LLM Evaluations**](https://www.oreilly.com/live-events/statistical-testing-for-llm-evaluations/0642572400019/), taught by **Rudrendu Paul**.
+Companion notebooks for the O'Reilly live course **Statistical Testing for LLM Evaluations**, taught by **Rudrendu Paul**.
 
 **Your LLM eval says the new version is better. Should you trust it? Often not.** Most LLM evals are underpowered, use the wrong statistical test, or hide a failure behind one average score. This repo gives you a five-question check, a ship-or-hold decision framework, and four notebooks that prove each point. Every notebook runs on synthetic data, so `pip install` is the only setup required.
 
